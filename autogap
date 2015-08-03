@@ -1,0 +1,25 @@
+#!/bin/bash
+
+##Make sure only one instance of autogap is run
+if ! mkdir /tmp/autogap.lock; then
+    printf "Failed to aquire lock.\n" >&2
+    exit 1
+fi
+trap 'rm -rf /tmp/autogap.lock' EXIT  # remove the lockdir on exit
+
+
+bspc control --subscribe | while read line; do
+  W=$(bspc query --desktop focused --windows | wc -l)
+  G=$(echo "51 - ($W - 1) * 10" | bc)
+  L=$(bspc control --get-status | awk '{print substr($0,length,1)}')
+  [[ $G -lt 1 ]] && G=1
+  if [[ "$W" == 1 ]] && [[ "$L" == T ]]; then
+    bspc desktop -l monocle
+  elif [[ "$W" == 2 ]] && [[ "$L" == M ]]; then
+    bspc desktop -l tiled && bspc config --desktop focused window_gap $G
+  else
+    bspc config --desktop focused window_gap $G
+  fi
+done
+
+
