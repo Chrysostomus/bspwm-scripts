@@ -1,0 +1,51 @@
+#!/bin/sh
+case $1 in
+dsktp) # Add or remove a desktop
+    case $2 in
+    add)
+        current=$(bspc query -D | wc -l)
+        if [ "$current" -lt "10" ]; then
+            new=$((current + 1))
+            bspc monitor -a $new
+        else
+            notify-send "You already have ten desktops" "Are those really necessary? Consider closing unneeded windows." -i warning
+        fi
+    ;;
+    rm)
+        current=$(bspc query -D | wc -l)
+        if [ "$current" -gt "4" ]; then
+            bspc monitor -r $(bspc query -D | sed -n ${current}p)
+        else
+            notify-send "You currently have four desktops" "That can be considered a bare minimum. You should not remove more." -i warning
+        fi
+    ;;
+    esac
+;;
+empty)
+    nextFreeDesktop=$(bspc query -D -d next.free)
+
+    if [ -z "$nextFreeDesktop" ]
+    then
+        nextFreeDesktop=$(( $(bspc query -D | wc -l) + 1 ))
+        bspc monitor -a $nextFreeDesktop
+    fi
+
+    case $2 in
+        move)
+            bspc window -d $nextFreeDesktop
+            ;;
+        next)
+            bspc rule -a \* -o desktop=$nextFreeDesktop follow=true
+            ;;
+    esac
+;;
+tile) # Force every existing window to tile (the opposite is dumb IMHO)
+    for window in $(bspc query -W -d focused)
+    do
+        bspc window $window -t floating=off
+    done
+;;
+*)
+	exit
+;;
+esac
