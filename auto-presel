@@ -1,0 +1,12 @@
+#! /bin/sh
+
+fwid=$(bspc query -W -w focused)
+
+wattr wh $fwid | {
+	read width height
+	if [ $width -gt $height ] ; then
+		bspc window -p right
+	else
+		bspc window -p down
+	fi
+}
