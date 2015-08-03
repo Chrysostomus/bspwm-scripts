@@ -1,0 +1,14 @@
+#! /bin/bash
+
+id="$(bspc query -W -w "${1:-focused}" | head -n1)"
+[ -z "$id" ] && exit 1
+
+eval $(xwininfo -id "$id" | sed -nr \
+    -e "s/^ +Width: +([0-9]+).*/w=\1/p" \
+    -e "s/^ +Height: +([0-9]+).*/h=\1/p")
+
+if [ "$w" -gt "$h" ]; then
+    echo horizontal
+else
+    echo vertical
+fi
