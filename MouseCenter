@@ -1,0 +1,10 @@
+#!/bin/sh
+# Get the necessary info
+IFS=" " read -a window <<< $(xwinfo -g $(bspc query -W -w focused))
+
+# Find the center of the window
+center_x=$(expr "${window[0]}" / "2" + "${window[2]}")
+center_y=$(expr "${window[1]}" / "2" + "${window[3]}")
+
+# Move mouse
+xdotool mousemove $center_x $center_y
