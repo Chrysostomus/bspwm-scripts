@@ -1,12 +1,5 @@
 #!/bin/bash
 
-#       
-#		Based on "Custom dmenu-bind.sh" by
-#       Copyright 2009, Gatti Paolo (lordkrandel at gmail dot com)
-#       Distributed as public domain. Modified to spawn on mouse and have different contents.
-
-#       09.28.2009 -- First release
-#       09.29.2009 -- Submenu support added
 eval $(xdotool getmouselocation --shell)
 menu_widht=240
 monitor_widht=$(xdpyinfo | awk -F'[ x]+' '/dimensions:/{print $3}')
