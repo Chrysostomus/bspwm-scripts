@@ -1,0 +1,22 @@
+#!/bin/bash
+
+##Make sure only one instance of autogap is run
+if ! mkdir /tmp/automonocle.lock; then
+    printf "Failed to aquire lock.\n" >&2
+    exit 1
+fi
+trap 'rm -rf /tmp/automonocle.lock' EXIT  # remove the lockdir on exit
+
+
+bspc control --subscribe window | while read line; do
+  W=$(bspc query --desktop focused --windows | wc -l)
+  L=$(bspc control --get-status | awk '{print substr($0,length,1)}')
+  [[ $G -lt 1 ]] && G=1
+  if [[ "$W" == 1 ]] && [[ "$L" == T ]]; then
+    bspc desktop -l monocle
+  elif [[ "$W" == 2 ]] && [[ "$L" == M ]]; then
+    bspc desktop -l tiled
+  fi
+done
+
+
