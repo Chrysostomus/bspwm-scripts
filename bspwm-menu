@@ -1,0 +1,23 @@
+#!/bin/sh
+case $1 in
+desktop-add)
+	name="$(echo " " | dmenu -i -l 10 -y $PANEL_HEIGHT -w 500 $DMENU_OPTIONS -p 'Name new workspace:')"
+	bspc monitor -a "$name"
+;;
+desktop-remove)
+	name="$(bspc query -D | dmenu -i -l 10 -y $PANEL_HEIGHT -w 500 $DMENU_OPTIONS -p 'Remove workspace:')"
+	bspc monitor -r "$name"
+;;
+move-to-desktop)
+	name="$(bspc query -D | dmenu -i -l 10 -y $PANEL_HEIGHT -w 500 $DMENU_OPTIONS -p 'Move to workspace:')"
+	bspc window -d "$name"
+;;
+desktop-rename)
+	name="$(dmenu -i -l 10 -y $PANEL_HEIGHT -w 500 $DMENU_OPTIONS -p 'Rename workspace to:')"
+	bspc desktop -n "$name"
+;;
+desktop-swap)
+	name="$(bspc query -D | dmenu -i -l 10 -y $PANEL_HEIGHT -w 500 $DMENU_OPTIONS -p 'swap with:')"
+	bspc desktop -s "$name"
+;;
+esac
