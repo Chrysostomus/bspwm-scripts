@@ -1,0 +1,13 @@
+#!/bin/bash
+ 
+DMENU_NF="#A3A6AB"
+DMENU_NB="#34322E"
+DMENU_SF="#F6F9FF"
+DMENU_SB="#5C5955"
+ 
+DESKTOP_NAME=`echo '' | dmenu -b $DMENU_THEME -p 'Rename:'`
+if [ -z $DESKTOP_NAME ]; then
+    exit 0
+fi
+ 
+bspc desktop -n "$DESKTOP_NAME"
