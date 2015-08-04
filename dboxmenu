@@ -25,7 +25,7 @@ choice=$(echo -e "Run\nTerminal\nFiles\nBrowser\nEditor\nPackageManager" | dmenu
 case "$choice" in
   Run) dboxrun & ;;
   Terminal) terminal & ;;
-  Files) pcmanfm & ;;
+  Files) spacefm & ;;
   Browser) chromium & ;;
   Editor) geany & ;;
   PackageManager) terminal -e yaourt-gui & ;;
