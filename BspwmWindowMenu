@@ -1,4 +1,8 @@
 #!/bin/bash
+if ! [ -f "$HOME/.dmenurc" ]; then
+	cp /usr/share/dmenu/dmenurc $HOME/.dmenurc
+fi
+. $HOME/.dmenurc
 
 eval $(xdotool getmouselocation --shell)
 menu_widht=240
