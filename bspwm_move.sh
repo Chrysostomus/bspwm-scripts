@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Originally by https://github.com/windelicato/, modified to do different actions to windows
 # Sample sxhkd usage:
 #
 # alt + {a,f}
