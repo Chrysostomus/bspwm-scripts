@@ -1,5 +1,10 @@
 #!/bin/sh
 # Originally by https://github.com/tatou-tatou, modified to use dmenu instead of zenity
+if ! [ -f "$HOME/.dmenurc" ]; then
+	cp /usr/share/dmenu/dmenurc $HOME/.dmenurc
+fi
+. $HOME/.dmenurc
+
 case $1 in
 desktop-add)
 	name="$(echo " " | dmenu -i -l 10 -y $PANEL_HEIGHT -w 500 $DMENU_OPTIONS -p 'Name new workspace:')"
