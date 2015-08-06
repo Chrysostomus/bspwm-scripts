@@ -1,5 +1,6 @@
 #!/bin/sh
 # Get the necessary info
+#Script copied from https://github.com/tatou-tatou
 IFS=" " read -a window <<< $(xwinfo -g $(bspc query -W -w focused))
 
 # Find the center of the window
