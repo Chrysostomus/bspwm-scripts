@@ -1,4 +1,5 @@
 #!/bin/sh
+# By https://github.com/tatou-tatou
 case $1 in
 dsktp) # Add or remove a desktop
     case $2 in
