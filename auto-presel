@@ -1,5 +1,6 @@
 #! /bin/sh
-
+# Original script by https://github.com/ikn/ , modified to use splitting method of
+# https://github.com/baskerville/bspwm/tree/master/examples/external_rules/pseudo_automatic_mode
 fwid=$(bspc query -W -w focused)
 
 wattr wh $fwid | {
