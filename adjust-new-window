@@ -1,5 +1,7 @@
 #! /bin/bash
 #External rule that always splits the biggest window of the desktop
+#Originally copied from https://github.com/ikn/ and 
+#modified to use splitting method of https://github.com/baskerville/bspwm/tree/master/examples/external_rules/pseudo_automatic_mode
 bwid=$(bspc query -W -w biggest.tiled)
 wid=$1
 class=$2
