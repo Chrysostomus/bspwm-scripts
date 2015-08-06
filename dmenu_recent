@@ -3,6 +3,11 @@
 # Originally based on code by Dieter Plaetinck.
 # Pretty much re-written by Mina Nagy (mnzaki)
 
+if ! [ -f "$HOME/.dmenurc" ]; then
+	cp /usr/share/dmenu/dmenurc $HOME/.dmenurc
+fi
+. $HOME/.dmenurc
+
 #dmenu_cmd="dmenu $DMENU_OPTIONS"
 dmenu_cmd="dmenu $DMENU_OPTIONS"
 terminal="terminal -e"
