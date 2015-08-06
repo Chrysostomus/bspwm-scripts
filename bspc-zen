@@ -1,4 +1,5 @@
 #!/bin/sh
+# Original script by https://github.com/tatou-tatou. No modifications
 case $1 in
 desktop-add)
 	name="$(zenity --entry --text='Type the name of the new workspace:')"
