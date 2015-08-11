@@ -30,6 +30,7 @@ package () {
 	install -m755 "$srcdir/$pkgname/WindowSelector" "$pkgdir/usr/bin/WindowSelector"
 	install -m755 "$srcdir/$pkgname/swapOrMoveIn.sh" "$pkgdir/usr/bin/swapOrMoveIn.sh"
 	install -m755 "$srcdir/$pkgname/autogap" "$pkgdir/usr/bin/autogap"
+	install -m755 "$srcdir/$pkgname/postinstall" "$pkgdir/usr/bin/postinstall"
 	install -m755 "$srcdir/$pkgname/dmenurc" "$pkgdir/usr/share/dmenu/dmenurc"
 	install -m755 "$srcdir/$pkgname/application_switcher" "$pkgdir/usr/bin/application_switcher"
 	install -m755 "$srcdir/$pkgname/auto-presel" "$pkgdir/usr/bin/auto-presel"
