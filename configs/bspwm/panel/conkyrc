@@ -1,0 +1,44 @@
+#out_to_x no
+background no
+out_to_console          yes
+update_interval         5
+total_run_times         0
+short_units         yes
+pad_percents         2
+times_in_seconds true
+if_up_strictness address
+#use_spacer left
+
+TEXT
+
+${exec sleep 3}
+C\
+#Battery stuff for possible BAT1
+%{A:nmcli_dmenu:}${if_up wlp1s0} $else  $endif %{A} \
+%{A:dbright:}\
+${if_existing /sys/class/power_supply/BAT1/present 1}\
+	${if_match "${acpiacadapter}" == "off-line"}\
+		${if_match ${battery_percent BAT1} <= 100}\
+			${if_match ${battery_percent BAT1} <= 70}\
+				${if_match ${battery_percent BAT1} <= 40}\
+					 ${battery_percent BAT1}%\
+				$else \
+					 ${battery_percent BAT1}%\
+				$endif\
+			$else\
+				 ${battery_percent BAT1}%\
+			$endif\
+		$endif\
+		$else  ${battery_percent BAT1}%\
+	$endif\
+$endif\
+%{A} \
+%{A2:xfce4-terminal --hide-menubar -e ranger:}%{A:xfce4-terminal -e htop:} ${memperc}% %{A}%{A}\
+##Cpu usage
+ $cpu% \
+##Temperature
+# $alignr${hwmon temp 1}°C  \
+##Clock
+ ${time %H:%M} \
+#   
+
