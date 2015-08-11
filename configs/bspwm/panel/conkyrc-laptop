@@ -1,0 +1,61 @@
+background no
+out_to_console          yes
+update_interval         5
+total_run_times         0
+short_units         yes
+pad_percents         2
+times_in_seconds true
+if_up_strictness address
+#use_spacer left
+
+TEXT
+
+${exec sleep 3}
+C\
+#Battery stuff for possible BAT1
+%{A:nmcli_dmenu:}${if_up wlp1s0} $else  $endif %{A} \
+%{A:dbright:}\
+${if_existing /sys/class/power_supply/BAT1/present 1}\
+	${if_match "${acpiacadapter}" == "off-line"}\
+		${if_match ${battery_percent BAT1} <= 100}\
+			${if_match ${battery_percent BAT1} <= 70}\
+				${if_match ${battery_percent BAT1} <= 40}\
+					 ${battery_percent BAT1}%\
+				$else \
+					 ${battery_percent BAT1}%\
+				$endif\
+			$else\
+				 ${battery_percent BAT1}%\
+			$endif\
+		$endif\
+		$else  ${battery_percent BAT1}%\
+	$endif\
+$endif\
+%{A} \
+%{A2:terminal -e ranger:}%{A:terminal -e htop:} ${memperc}% %{A}%{A}\
+#Cpu usage
+ $cpu% \
+#Temperature
+ $alignr${hwmon temp 1}°C  \
+#Clock
+ ${time %H:%M} \
+#   
+#Network icon and essid
+#%{A:nmcli_dmenu:}${if_up eth0} $else ${if_up wlan0} ${wireless_essid wlan0}$else ${if_up wlp1s0} ${wireless_essid wlp1s0}$else  $endif $endif$endif%{A}\
+#Signal strength
+#${if_match "70" <= "${wireless_link_qual_perc wlp1s0}"}\
+#	▬▪▮$else\
+#	${if_match "40" <= "${wireless_link_qual_perc wlp1s0}"\
+#			${if_match "39" >= "${wireless_link_qual_perc wlp1s0}"\
+#			▬%{F#FF505050}▪▮$else\
+#				%{F#FF505050}▬▪▮\
+#			$endif\
+#	$endif\
+#$endif\
+#$endif\
+# powerbutton 
+# Volumeicons %
+# CPU 
+# clock 
+# batteryindicators     
+# wifi 
