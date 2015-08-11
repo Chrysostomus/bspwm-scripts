@@ -1,0 +1,306 @@
+# bspwm hotkeys
+#
+super + shift + q
+	bspc quit 1 && pkill lemonpanel && pkill lemonbar
+	
+# Toggle panels
+super + shift + space
+#	{pkill xfce4-panel; bspc config top_padding 0 ,\
+#	bspc config top_padding 30; xfce4-panel -d & }
+	{pkill lemonpanel; pkill lemonbar; pkill cat; pkill stalonetray; bspc config top_padding -15 ,\
+	bspc config top_padding 15; lemonpanel & }
+
+#
+# Window manipulation
+# ______________
+
+# Close window
+super + x
+	bspc  window -c
+
+# Kill window
+super + shift + x
+	bspc  window -k
+
+# Toggle tiling mode of window
+super + {_,shift +} t
+	bspc window -t {floating,pseudo_tiled}
+# Force all windows of the desktop to tile
+super + ctrl + t
+	bspcp tile
+# Toggle fullscreen
+super + shift + f 
+	bspc window -t fullscreen	
+
+# Try to keep size and position of the selected window
+super + o
+	bspc window -t private
+
+# Make window sticky
+super + i
+	bspc window -t sticky
+
+# Lock a window from closing
+super + Escape
+	bspc window -t locked 
+
+### Map or unmap windows (functional equivalent of "minimize")
+super + c
+    whid dmenu
+
+super + shift + c
+    whid hide
+
+super + ctrl + c
+    whid last
+
+# Go to specific window
+super + z
+	WindowSelector
+#
+# Window moving and splitting
+# ______________    
+
+# Autopresel (split window in its largest dimension)
+super + ctrl + Return
+	auto-presel
+
+# Presel window for splitting in certain direction
+alt + ctrl + {a,s,w,d}
+	bspc window -p {left,down,up,right}
+
+alt + ctrl + {h,j,k,l}
+	bspc window -p {left,down,up,right}
+
+alt + ctrl + {Left,Down,Up,Right}
+	bspc window -p {left,down,up,right}
+
+# Split window horizontally
+super + h
+	bspc window -p down
+
+# Split window vertically 
+super + v
+	bspc window -p right
+
+# Set splitting ratio of windows
+alt + ctrl + {1-9}
+	bspc window -r 0.{1-9}
+		
+# Move current window to largest space or preselected area if there is one.
+super + Return
+    if [ -z "$(bspc query -W -w last.manual.local)" ]; then \
+        bspc window -s biggest.unfocused; \
+    else \
+        bspc window -w last.manual.local; \
+    fi 
+
+# go (Shift=move) to desktop 
+super + {_,shift + }{1-9,0}
+    bspc {desktop -f,window -d} ^{1-9,10}
+
+# Select previous / next desktop
+super + {m,n}
+	bspc desktop -f {prev.occupied,next.occupied} 
+
+# cycle windows
+alt + {_,shift + }Tab
+    bspc window -f {next,prev}
+
+# Go to specific window
+super + Tab
+	WindowSelector
+	
+# Select windows (move focus)
+super + {a,s,w,d}
+	bspc window -f {left,down,up,right} || bspc window -f {prev, prev, next, next}
+
+super + {h,j,k,l}
+	bspc window -f {left,down,up,right} || bspc window -f {prev, prev, next, next}	
+
+super + {Left,Down,Up,Right}
+	bspc window -f {left,down,up,right} || bspc window -f {prev, prev, next, next}
+	
+# Move tiled windows. Moving a tiled window to preselected one moves into preselection instead. 
+super + shift + {a,s,w,d}
+	bspc config pointer_follows_focus true; \
+	swapOrMoveIn.sh {left,down,up,right}; \
+	bspc config pointer_follows_focus false
+
+super + shift + {h,j,k,l}
+	bspc config pointer_follows_focus true; \
+	swapOrMoveIn.sh {left,down,up,right}; \
+	bspc config pointer_follows_focus false
+	
+super + shift + {Left,Down,Up,Right}
+	bspc config pointer_follows_focus true; \
+	swapOrMoveIn.sh {left,down,up,right}; \
+	bspc config pointer_follows_focus false
+
+#resize windows
+super + ctrl + {d,a}
+	$HOME/scripts/bspwm_resize.sh {-p,-n} -x -s 20
+
+super + ctrl + {s,w}
+    $HOME/scripts/bspwm_resize.sh {-p,-n} -y -s 20
+
+super + ctrl + {l,h}
+	$HOME/scripts/bspwm_resize.sh {-p,-n} -x -s 20
+
+super + ctrl + {j,k}
+    $HOME/scripts/bspwm_resize.sh {-p,-n} -y -s 20
+
+super + ctrl + {Right,Left}
+	$HOME/scripts/bspwm_resize.sh {-p,-n} -x -s 20
+
+super + ctrl + {Down,Up}
+    $HOME/scripts/bspwm_resize.sh {-p,-n} -y -s 20
+
+#
+# Layout manipulation/desktop level controls
+# ______________    
+
+# Toggle monocle mode
+super + f 
+	bspc desktop -l next
+	
+# Balance tree
+super + b
+	bspc desktop -B
+	
+# Undo balancing (equalize windows)
+super + ctrl + b
+	bspc desktop -E 
+
+# Mirror and flip leaves of tree
+super + {comma,period}
+	bspc desktop -F {horizontal,vertical}
+	
+# Rotate leaves of tree
+super + shift + {comma,period}
+	bspc desktop -R {90,270}
+
+# Change window gap
+
+ctrl + space   
+    bspc config -d focused window_gap {15,30,65}
+
+#
+# mouse bindings
+# __________________
+
+# Move or resize window
+super + button{1-3}
+	bspc pointer -g {move,resize_side,resize_corner}
+
+# Needed for ^^^^
+super + button{1-3}
+	; bspc pointer -g {move,resize_side,resize_corner}
+
+super + @button{1-3}
+	bspc pointer -u
+# Needed to focus windows by clicking, if you wish to disable 
+# focus_follows_mouse behavior (required to use menu of xfdesktop and whiskermenu)
+~button1
+	bspc pointer -g focus
+
+### Add or remove desktops by scrolling
+super + ctrl + button5
+    bspcp dsktp rm
+
+super + ctrl + button4
+    bspcp dsktp add
+
+# Spawn applications popup menu and manually tile selected 
+# app where your mouse was when you opened the menu
+# mod5 is alt_gr (first key right from space) on most keyboards. 
+mod5 + @button1
+    MouseLaunch
+
+# Spawn window manipulation menu
+# Mod1 is alt
+mod1 + @button1
+    BspwmWindowMenu
+
+# These two are needed if you want to use xfdesktops menus while 
+# focus_follows_pointer is on
+#@button3
+#	clickpasser3.sh
+#@button2
+#	clickpasser2.sh	
+
+#
+# Touchpad "gestures" (depend on your touchpad driver, very likely to be unavailable)
+#_____________________
+
+### Three finger swipe (left or right) to change desktop
+@button{10,11}
+    bspc desktop -f {prev,next}
+
+### Three finger swipe (up) to launch dswitcher
+@button8
+    dswitcher & xdotool mousemove 640 400
+    
+#
+# spawn programs
+#
+
+# run applications
+super + space
+	dmouse
+	
+## 'terminal' is a wrapper script for urxvt	
+ctrl + alt + t
+	terminal -name 'floaterm' -geometry 75x30
+
+super + shift + Return
+	terminal
+
+super + r
+	finder
+
+super + shift + b
+	chromium 
+    
+super + p
+	dmenu_recent -i -fn sans17 -nb '#000000' -nf '#99CC99' -sb '#99CC99' -sf '#000000'
+		
+super + e
+	spacefm
+
+super + shift + e
+	terminal -e ranger
+
+Print
+	scrot -q 100
+
+#super + shift + p
+#	gnome-pie
+	
+#
+# Media keys
+#
+
+XF86AudioRaiseVolume
+	volume up
+
+XF86AudioLowerVolume
+	volume down
+
+XF86AudioMute
+	volume mute
+
+# make sxhkd reload its configuration files:
+super + shift + Escape
+	pkill -USR1 -x sxhkd
+
+# In case bspwmrc fails to execute/you wish have plugged in a new monitor
+super + shift + r
+	bspwmrc
+#edit this file
+alt + ctrl + space
+	geany ~/.config/sxhkd/sxhkdrc
+# Toggle compoiting
+super + ctrl + space
+	{pkill compton ,\
+	compton -b }
