@@ -1,0 +1,93 @@
+#! /bin/sh
+export BSPWM_SCRIPTS_DIR="$HOME/scripts"
+gap=15
+
+#This creates negative padding eaual to window gap so that gaps are shown only between windows and not on desktop edges.
+bspc config window_gap $gap;
+bspc config top_padding $(($PANEL_HEIGHT-gap))
+bspc config left_padding -$gap
+bspc config right_padding -$gap
+bspc config bottom_padding -$gap
+
+#Various settings
+bspc config gapless_monocle     false #Default setup uses negative padding, and gapless monocle looks really weird like that
+bspc config borderless_monocle  true
+bspc config leaf_monocle true
+bspc config adaptative_raise true
+bspc config apply_floating_atom    true
+bspc config history_aware_focus    true
+#bspc config ignore_ewmh_focus      true
+#bspc config initial_polarity second_child
+
+##Color settings
+bspc config normal_frame_opacity 1.0
+bspc config focused_frame_opacity 0.05
+bspc config focused_border_color "#99CC99"
+bspc config normal_border_color "#000000"
+bspc config presel_border_color "#8F3724"
+bspc config urgent_border_color "#504339"
+bspc config focused_private_border_color "#35BF5C"
+bspc config border_width 2
+
+bspc config focus_follows_pointer true
+#bspc config pointer_follows_focus true #Some keybindings automatically enable and disable this setting
+
+#Settings for manual splitting
+bspc config auto_alternate true
+bspc config auto_cancel true
+bspc config split_ratio         0.52
+
+#bspc monitor -d i ii iii iv v vi vii viii ix x
+#bspc monitor -d One Two Three Four Five Six Seven Eight Nine Ten
+#bspc monitor -d I II III IV V VI VII VIII IX X
+#bspc monitor -d • • • • • • • • • •
+#bspc monitor -d I II III IV V VI
+
+###This creates and names desktops for multiple monitors.
+workspaces_multimonitor &
+
+bspc rule -a Screenkey --unmanage
+bspc rule -a Gcolor2 floating=true center=true
+bspc rule -a Lxappearance floating=true center=true
+bspc rule -a Gmrun floating=true center=true
+bspc rule -a Lxterminal floating=true center=true sticky=true
+#bspc rule -a urxvt floating=true center=true
+bspc rule -a Viewnior floating=true center=true
+bspc rule -a Feh floating=true center=true
+bspc rule -a File-roller floating=true center=true
+bspc rule -a floaterm floating=true center=true
+#bspc rule -a Skype pseudo_tiled=on
+bspc rule -a Spotify pseudo_tiled=on
+#bspc rule -a "Nautilus" pseudo_tiled=on
+#bspc rule -a Skype pseudo_tiled=on
+bspc rule -a File-roller pseudo_tiled=on
+bspc rule -a Transmission-gtk pseudo_tiled=on
+bspc rule -a Conky sticky=on manage=off lower=on
+bspc rule -a astime sticky=on
+bspc rule -a feh floating=on manage=off
+bspc rule -a yad floating=on
+bspc rule -a docky --focus
+bspc rule -a Google-chrome-unstable private=on
+bspc rule -a Google-chrome-stable private=on
+bspc rule -a Chromium private=on
+bspc rule -a Firefox private=on
+bspc rule -a gnome-pie border=off manage=off
+#bspc rule -a Firefox desktop=I
+#bspc rule -a Calibre desktop=II
+#bspc rule -a Geany desktop=II
+#bspc rule -a Deluge desktop=III
+bspc rule -a 9menu border=off manage=off
+bspc rule -a tint2 border=off manage=off
+#bspc desktop I --layout monocle
+#bspc desktop II --layout monocle
+
+
+##Autogap adjusts windowgap automatically according to the number of
+##windows on the desktop. Using it disables negative window gap.
+#autogap &
+
+###External rules
+##Pseudo automatic mode: always splits focused window when opening new window
+bspc config external_rules_command ~/.config/bspwm/pseudo_automatic_mode
+##Adjust new window: splits biggest windows to keep windows about the same size
+#bspc config external_rules_command ~/.config/bspwm/adjust-new-window
