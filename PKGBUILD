@@ -1,11 +1,11 @@
 # Contributor: Chrysostomus
-pkgname=Bspwm-scripts
-_pkgname=Bspwm-scripts
+pkgname=bspwm-scripts
+_pkgname=bspwm-scripts
 pkgver=0.1
 pkgrel=1
 pkgdesc="Scripts for bspwm"
 arch=(any)
-url="https://github.com/Chrysostomus/Bspwm-scripts"
+url="https://github.com/Chrysostomus/bspwm-scripts"
 license=("MIT")
 depends=('dmenu-manjaro' 'bspwm' 'sxhkd' 'xdotool' 'wmctrl' 'wmutils-git' 'xorg-xdpyinfo' 'xtitle')
 optdepends=()
