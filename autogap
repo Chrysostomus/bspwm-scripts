@@ -7,10 +7,11 @@ if ! mkdir /tmp/autogap.lock; then
 fi
 trap 'rm -rf /tmp/autogap.lock' EXIT  # remove the lockdir on exit
 
-bspc config top_padding $PANEL_HEIGHT
+bspc config top_padding 0
 bspc config left_padding 0
 bspc config right_padding 0
 bspc config bottom_padding 0
+bspc config -m $(bspc query -M | awk NR==1) top_padding $PANEL_HEIGHT
 bspc config gapless_monocle     true
 
 bspc control --subscribe | while read line; do
