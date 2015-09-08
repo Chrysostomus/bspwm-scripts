@@ -32,7 +32,7 @@ case "$choice" in
   Terminal) terminal & ;;
   Files) xdg-open ~ & ;;
   Browser) xdg-open https://manjaro.github.io/ & ;;
-  Editor) gedit || medit || leafpad || geany || mousepad || kate & ;;
+  Editor) $GUI_EDITOR || gedit || medit || leafpad || geany || mousepad || kate & ;;
   PackageManager) terminal -e yaourt-gui & ;;
   Keybinds) xdg-open .config/sxhkd/sxhkdrc & ;;
 esac
