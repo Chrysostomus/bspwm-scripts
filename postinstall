@@ -875,19 +875,6 @@ for app in "${!apps_descr[@]}"; do
 done
 
 while true; do
-    read -s -n 1 -p "$PS3" input
-    if [[ $input = "" ]]; then
-        if ping -q -w 1 -c 1 8.8.8.8 &> /dev/null; then
-            echo "Connection check succeeded..."
             sleep 1
             main
-        else
-            printf '%s\n' "Connection check failed... Please connect to the internet and press [Return] to"\
-                          "run a connection check again."
-            continue
-        fi
-    else
-        echo "Press [Return] to run a connection check."
-        continue
-    fi
 done
