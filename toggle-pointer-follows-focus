@@ -1,7 +1,0 @@
-#!/bin/bash
-
-toggle=$(bspc config pointer_follows_focus | \
-    awk -vtoggle="true" \
-    '{ if ($1 == "true") toggle="false"; print toggle }')
-
-bspc config pointer_follows_focus $toggle
