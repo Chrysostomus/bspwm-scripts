@@ -1,0 +1,10 @@
+#!/bin/bash
+# ~/.dmenurc
+DMENU_FN="-zevv-peep-medium-*-normal--20-175-*-*-c-*-iso8859-15"
+#DMENU_FN="-*-terminus-medium-r-normal-*-20-*-*-*-*-*-iso10646-*"
+DMENU_NB="#000000"
+DMENU_NF="#99CC99"
+DMENU_SB="#99CC99"
+DMENU_SF="#000000"
+DMENU_OPTIONS="-fn $DMENU_FN -nb $DMENU_NB -nf $DMENU_NF -sf $DMENU_SF -sb $DMENU_SB"
+export DMENU_FN DMENU_NB DMENU_NF DMENU_SF DMENU_SB DMENU_OPTIONS

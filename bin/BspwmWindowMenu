@@ -1,0 +1,106 @@
+#!/bin/bash
+if ! [ -f "$HOME/.dmenurc" ]; then
+	cp /usr/share/dmenu/dmenurc $HOME/.dmenurc
+fi
+. $HOME/.dmenurc
+
+eval $(xdotool getmouselocation --shell)
+menu_widht=240
+monitor_widht=$(xdpyinfo | awk -F'[ x]+' '/dimensions:/{print $3}')
+monitor_height=$(xdpyinfo | awk -F'[ x]+' '/dimensions:/{print $4}')
+lines=14
+menu_height=$(echo "$lines * 23" | bc)
+maxx=$(echo "$monitor_widht - $menu_widht" | bc)
+miny=$PANEL_HEIGHT
+maxy=$(echo "$monitor_height - $menu_height" | bc)
+XP=$(echo "$X - 15" | bc)
+[[ $XP -gt $maxx ]] && XP=$maxx
+YP=$Y
+[[ $YP -lt $miny ]] && YP=$miny
+[[ $YP -gt $maxy ]] && YP=$maxy
+
+if [ "$1" == "" ]; then
+    title="W"
+    menu=( \
+#               labels            commands
+#           Main =========================================
+                Window                "$0 window"
+                Move                "$0 moveto"
+                ManualSplit         "$0 manual"
+               	Close			      "bspc window -c"
+				CloseWindowClass    "xdo close -cd"
+				Hide				"whid hide"
+				Urgent			      "bspc window -f next.urgent"
+    )
+else
+    case $1 in
+    window)
+        title="Window"
+        menu=( \
+#           Web ==========================================
+                Floating          "bspc window -t floating" \
+                Monocle           "bspc desktop -l next" \
+                Fullscreen        "bspc window -t fullscreen" \
+                Sticky            "bspc window -t sticky" \
+                Private           "bspc window -t private" \
+                Lock              "bspc window -t lock" \
+         )
+    ;;
+    moveto)
+        title="Moveto"
+        menu=( \
+#           Tools ========================================
+                Desktop           "bspwm-zenity move-to-desktop" \
+                NextFreeDesktop      "bspc window -d next.free" \
+                LastFocusedDesktop   "bspc window -d last" \
+                Monitor           "geany" \
+                Promote           "bspc window -w biggest.local" \
+         )
+    ;;
+    manual)
+        title="Manual"
+        menu=( \
+#           System =======================================
+                SplitUp          "bspc window -p up" \
+                SplitDown        "bspc window -p down" \
+                SplitLeft        "bspc window -p left" \
+                SplitRight       "bspc window -p right" \
+                Split25%         "bspc window -r 0.25" \
+                Split50%         "bspc window -r 0.5" \
+                Split75%         "bspc window -r 0.75" \
+                MoveToSplit      "bspc window -w last.manual" \
+                CancelSplits     "bspc desktop -c" \
+         )
+    ;;
+    esac
+fi
+
+for (( count = 0 ; count < ${#menu[*]}; count++ )); do
+
+#   build two arrays, one for labels, the other for commands
+    temp=${menu[$count]}
+    if (( $count < ${#menu[*]}-2 )); then
+        temp+="\n"
+    fi
+    if (( "$count" % 2 == "0" )); then
+        menu_labels+=$temp
+    else
+        menu_commands+=$temp
+    fi
+
+done
+
+select=`echo -e $menu_labels | dmenu -p $title -fn $DMENU_FN -nb $DMENU_NB -nf $DMENU_NF -sf $DMENU_SF -sb $DMENU_SB -l $lines -y $YP -x $XP -w $menu_widht`
+
+if [ "$select" != "" ]; then
+
+#   fetch and clean the index of the selected label
+    index=`echo -e "${menu_labels[*]}" | grep -xnm1 $select | sed 's/:.*//'`
+    
+#   get the command which has the same index
+    part=`echo -e ${menu_commands[*]} | head -$index`
+    exe=`echo -e "$part" | tail -1`
+
+#   execute
+    $exe &
+fi

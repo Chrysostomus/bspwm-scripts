@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Search through open programs and switch to their tag
+# original source: https://github.com/orschiro/dmenu-scripts-collection/blob/master/dmenu_running_apps/dmenu_running_apps
+# http://spiralofhope.com/wmctrl-examples.html
+if ! [ -f "$HOME/.dmenurc" ]; then
+	cp /usr/share/dmenu/dmenurc $HOME/.dmenurc
+fi
+. $HOME/.dmenurc
+
+width_height=`xwininfo -root | grep -m 1 '\-geometry' | grep -oE '[0-9]+x[0-9]+'`
+
+width=${width_height%x*}
+height=${width_height#*x}
+bar_width=$(( $width / 2 ))
+left_shift=$(( ($width - $bar_width) / 2 ))
+top_shift=$PANEL_HEIGHT
+
+application=$(
+    # List all running programs
+    wmctrl -l |\
+
+    # Titles only
+    cut -d' ' -f5- |\
+
+    # Pipe to dmenu ($@ to include font settings from dwm/config.h)
+    dmenu -i -p 'Switch to' $DMENU_OPTIONS -l 10 -x $left_shift -y $top_shift -w $bar_width $@
+)
+
+# remove special characters that mess up with xdotool search ([]~)
+application=$(echo $application | sed 's/\[/./' | sed 's/\]/./' | sed 's/\~/./')
+
+# Switch to chosen application
+case $application in
+    gimp | truecrypt)
+        xdotool search --onlyvisible -classname "$application" windowactivate &> /dev/null
+        ;;
+    *)
+        xdotool search ".*${application}.*" windowactivate &> /dev/null
+        ;;
+esac

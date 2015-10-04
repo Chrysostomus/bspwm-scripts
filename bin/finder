@@ -1,0 +1,4 @@
+#!/bin/sh
+# A fuzzy file-finder and opener based on dmenu
+# Requires: dmenu, exo-open
+find ~/ | sed 's/ /\\ /g' | sort -f | dmenu -i -l 20 -sb '#99CC99' -nb '#000000' -sf '#000000' -nf '#99CC99' -w 600 -fn sans15 | xargs xdg-open
