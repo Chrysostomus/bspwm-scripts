@@ -464,6 +464,9 @@ configuration() {
         printf '%b\n' "Select the correct number of the configuration you want to perform.\n"\
                       "1. Use Zsh as default terminal"\
                       "2. Symlink local files to /root/"\
+                      "3. Enable hibernation"\
+                      "4. Enable delayed hibernation"\
+                      "5. Enable autologin"\
                       "q. Quit\n"
         while true; do
             read -s -n 1 -p "$PS3" REPLY
@@ -475,6 +478,21 @@ configuration() {
                     ;;
                 2)  clear
                     symlink_files
+                    clear
+                    break
+                    ;;
+                3)  clear
+                    enable_hibernation
+                    clear
+                    break
+                    ;;
+                4)  clear
+                    enable_delayed_hibernation
+                    clear
+                    break
+                    ;;                    
+                5)  clear
+                    enable_autologin
                     clear
                     break
                     ;;
@@ -520,6 +538,84 @@ zsh_default_shell() {
     done
 
     printf '\n%s\n\n' "Changing shells has been finished. Press [Return] to finish."
+    while true; do
+        read -s -n 1 -p "$PS3" input
+        if [[ $input = "" ]]; then
+            break
+        else
+            echo "Press [Return] to finish."
+            continue
+        fi
+    done
+}
+
+enable_autologin() {
+    print_title " > Configuration > Zsh Default Shell"
+    while true; do
+        read -s -n 1 -p "Enable autologin for $USER? [y/N] " yesno
+        echo
+        if [[ $yesno = [Yy] ]]; then
+            sudo systemctl enable xlogin@$(whoami)
+            break
+        elif [[ $yesno = [Nn] ]]; then
+            break
+        else
+            continue
+        fi
+    done
+    printf '\n%s\n\n' "All is ready. Press [Return] to finish."
+    while true; do
+        read -s -n 1 -p "$PS3" input
+        if [[ $input = "" ]]; then
+            break
+        else
+            echo "Press [Return] to finish."
+            continue
+        fi
+    done
+}
+
+enable_delayed_hibernation() {
+    print_title " > Delayed hibernation"
+    while true; do
+        read -s -n 1 -p "Hibernate suspend system after a set period of time? [y/N] " yesno
+        echo
+        if [[ $yesno = [Yy] ]]; then
+            sudo systemctl enable suspend-to-hibernate.service
+            break
+        elif [[ $yesno = [Nn] ]]; then
+            break
+        else
+            continue
+        fi
+    done
+    printf '\n%s\n\n' "Done. Press [Return] to finish."
+    while true; do
+        read -s -n 1 -p "$PS3" input
+        if [[ $input = "" ]]; then
+            break
+        else
+            echo "Press [Return] to finish."
+            continue
+        fi
+    done
+}
+
+enable_hibernation() {
+    print_title " > Setting up hibernation"
+    while true; do
+        read -s -n 1 -p "Enable hibernation using hibernator script? [y/N] " yesno
+        echo
+        if [[ $yesno = [Yy] ]]; then
+            hibernator
+            break
+        elif [[ $yesno = [Nn] ]]; then
+            break
+        else
+            continue
+        fi
+    done
+    printf '\n%s\n\n' "Hibernator has finished. Press [Return] to finish."
     while true; do
         read -s -n 1 -p "$PS3" input
         if [[ $input = "" ]]; then
@@ -640,8 +736,6 @@ keybinds() {
 		Super + Enter                 |- Move window to the biggest available space 
                               |  or preselection if there is one
 		Super + ctrl + Enter          |- Preselect where the next window will be opened
-		Super + v                     |- Split/preselect window vertically
-		Super + h                     |- Split/preselect window horizontally
 		Super + b                     |- Balance windows
 		Super + i                     |- Make window sticky
 		Super + t                     |- Toggle tiling/floating
@@ -875,6 +969,5 @@ for app in "${!apps_descr[@]}"; do
 done
 
 while true; do
-            sleep 1
             main
 done
