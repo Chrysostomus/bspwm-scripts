@@ -607,7 +607,7 @@ enable_hibernation() {
         read -s -n 1 -p "Enable hibernation using hibernator script? [y/N] " yesno
         echo
         if [[ $yesno = [Yy] ]]; then
-            hibernator
+            sudo hibernator
             break
         elif [[ $yesno = [Nn] ]]; then
             break
