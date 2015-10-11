@@ -6,8 +6,8 @@ fi
 
 eval $(xdotool getmouselocation --shell)
 menu_widht=350
-monitor_widht=$(xdpyinfo | awk -F'[ x]+' '/dimensions:/{print $3}')
-monitor_height=$(xdpyinfo | awk -F'[ x]+' '/dimensions:/{print $4}')
+monitor_widht=$(wattr w $(lsw -r))
+monitor_height=$(wattr h $(lsw -r))
 lines=14
 menu_height=$(echo "$lines * 23" | bc)
 maxx=$(echo "$monitor_widht - $menu_widht" | bc)
