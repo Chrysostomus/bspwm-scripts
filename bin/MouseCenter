@@ -1,7 +1,7 @@
 #!/bin/sh
 # Get the necessary info
 #Script copied from https://github.com/tatou-tatou
-IFS=" " read -a window <<< $(xwinfo -g $(bspc query -W -w focused))
+IFS=" " read -a window <<< $(wattr whxy $(pfw))
 
 # Find the center of the window
 center_x=$(expr "${window[0]}" / "2" + "${window[2]}")
