@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# get current window id, width and height
+[[  $2 && ${2-x} ]] && WID=$2 || WID=$(pfw)
+WW=$(wattr w $WID)
+WH=$(wattr h $WID)
+
+# get screen width and height
+ROOT=$(lsw -r)
+SW=$(wattr w $ROOT)
+SH=$(wattr h $ROOT)
+
+# move the current window to the center of the screen
+center_window()
+{
+    wtp $(((SW - WW)/2)) $(((SH - WH)/2)) $WW $WH $WID
+}
+place_second()
+{
+    wtp 0 $PANEL_HEIGHT $WW $WH $WID
+}
+place_third()
+{
+    wtp 0 $((SH - WH - $gap)) $WW $WH $WID
+}
+place_fourth()
+{
+    wtp $((SW - WW - $gap)) $PANEL_HEIGHT $WW $WH $WID
+}
+place_fifth()
+{
+    wtp $((SW - WW - $gap)) $((SH - WH - $gap)) $WW $WH $WID
+}
+
+case $1 in
+    1)	center_window ;;
+    2)	place_second ;;
+    3)	place_third ;;
+    4)	place_fourth ;;
+    5)	place_fifth ;;
+    *)	center_window ;;
+esac
