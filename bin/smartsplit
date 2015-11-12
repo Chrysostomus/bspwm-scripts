@@ -1,19 +1,19 @@
 #!/bin/bash
-# Window splitting script for bspwm. Requires xwinfo and xdotool. Splits window in its biggest dimension
+# Window splitting script for bspwm. Requires wmutils and xdotool. Splits window in its biggest dimension
 # in the direction that is closer to the cursor. Inspired by MouseLaunch and pseudo_automatic_rule.
 # Get the necessary info
 
 eval $(xdotool getmouselocation --shell)
-IFS=" " read -a window <<< $(xwinfo -g $(bspc query -W -w focused))
+IFS=" " read -a window <<< $(wattr whxy $(bspc query -W -w focused))
 
 # Distance to each side
-up=$(expr "$Y" - "${window[3]}")
-down=$(expr "${window[3]}" + "${window[1]}" - "$Y" )
-left=$(expr "$X" - "${window[2]}")
-right=$(expr "${window[2]}" + "${window[0]}" - "$X" )
+up=$(( $Y - ${window[3]}))
+down=$(( ${window[3]} + ${window[1]} - $Y ))
+left=$(( $X - ${window[2]}))
+right=$(( ${window[2]} + ${window[0]} - $X ))
 # Dimensions of window
-widht=$(expr "${window[0]}")
-height=$(expr "${window[1]}")
+widht=${window[0]}
+height=${window[1]}
 
 # Determine which window edge in biggest dimension is closer
   if [[ "$widht" -lt "$height" ]] && [[ "$up" -lt "$down" ]]; then
@@ -29,4 +29,3 @@ height=$(expr "${window[1]}")
 # Split the window accordingly
 bspc window -p cancel # Necessary if you have set auto_cancel to true
 bspc window -p $dir_final
-
