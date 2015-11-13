@@ -1,0 +1,13 @@
+#!/bin/sh
+function on_exit {
+	for child in $(jobs -p); do
+		jobs -p | grep -q $child && kill $child
+	done
+	# Extra paranoia
+	[[ -d "${state_path}" && -w "${state_path}" ]] && rm -rf -- "${state_path}"
+}
+
+trap on_exit EXIT SIGHUP SIGINT SIGTERM
+
+xdotool behave_screen_edge left exec bspc desktop -f prev & 
+xdotool behave_screen_edge right exec bspc desktop -f next &
