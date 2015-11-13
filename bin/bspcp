@@ -1,5 +1,5 @@
 #!/bin/sh
-# By https://github.com/tatou-tatou
+i=1
 case $1 in
 dsktp) # Add or remove a desktop
     case $2 in
@@ -46,6 +46,14 @@ tile) # Force every existing window to tile (the opposite is dumb IMHO)
         bspc window $window -t floating=off
     done
 ;;
+float) # Force every existing window to float and place the windows
+    for window in $(bspc query -W -d focused)
+    do
+        bspc window $window -t floating=on && window-placer $i $window
+        let i++
+    done
+;;
+
 *)
 	exit
 ;;
