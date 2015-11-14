@@ -2,11 +2,12 @@
 #External rule that always splits the biggest window of the desktop
 #Originally copied from https://github.com/ikn/ and 
 #modified to use splitting method of https://github.com/baskerville/bspwm/tree/master/examples/external_rules/pseudo_automatic_mode
-bwid=$(bspc query -W -w biggest.tiled)
+bwid=$(bspc query -W -w biggest.tiled.public)
 wid=$1
 class=$2
 instance=$3
 title=$(xtitle "$wid")
+floats=$(bspc query -T -w | grep " f"| wc -l)
 # only do something if there's already a tiled window on this desktop
 if [ -n "$(bspc query -W -w biggest.tiled)" ]; then
     if [ -n "$(bspc query -W -w biggest.tiled.manual)" ]; then
@@ -17,11 +18,12 @@ if [ -n "$(bspc query -W -w biggest.tiled)" ]; then
         wattr wh $bwid | {
 			read width height
 			if [ $width -gt $height ] ; then
-				echo "window=biggest.tiled split_dir=left"
+				echo "window=biggest.tiled.public split_dir=left"
 			else
-				echo "window=biggest.tiled split_dir=down"
+				echo "window=biggest.tiled.public split_dir=down"
 			fi
 #			echo "split_ratio=0.5"
 		}	
     fi
 fi
+window-placer $floats $wid
