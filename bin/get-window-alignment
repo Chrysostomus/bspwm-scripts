@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 # By https://github.com/tatou-tatou
 id="$(bspc query -W -w "${1:-focused}" | head -n1)"
 [ -z "$id" ] && exit 1
