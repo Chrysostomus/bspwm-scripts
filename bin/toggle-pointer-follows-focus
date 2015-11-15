@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 toggle=$(bspc config pointer_follows_focus | \
     awk -vtoggle="true" \
