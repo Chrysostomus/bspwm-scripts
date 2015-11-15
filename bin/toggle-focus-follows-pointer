@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # ------------------------------------------------------------
 # Purpose: toggle focus with mouse. This needs to be
