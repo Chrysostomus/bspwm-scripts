@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Get the necessary info
 #Script copied from https://github.com/tatou-tatou
 IFS=" " read -a window <<< $(wattr whxy $(pfw))
