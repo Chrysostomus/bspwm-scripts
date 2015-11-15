@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Window splitting script for bspwm. Requires wmutils and xdotool. Splits window in its biggest dimension
 # in the direction that is closer to the cursor. Inspired by MouseLaunch and pseudo_automatic_rule.
 # Get the necessary info
