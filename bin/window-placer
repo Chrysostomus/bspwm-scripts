@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # get current window id, width and height
-[[  $2 && ${2-x} ]] && WID=$2 || WID=$(pfw)
+[  $2 && ${2-x} ] && WID=$2 || WID=$(pfw)
 WW=$(wattr w $WID)
 WH=$(wattr h $WID)
 
