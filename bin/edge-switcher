@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 function on_exit {
 	for child in $(jobs -p); do
 		jobs -p | grep -q $child && kill $child
