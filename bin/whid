@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 file="/tmp/.minimized"
 touch $file
 #! /bin/dash
