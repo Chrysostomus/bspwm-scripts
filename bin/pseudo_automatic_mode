@@ -5,7 +5,7 @@ wid=$1
 class=$2
 instance=$3
 title=$(xtitle "$wid")
-floats=$(bspc query -T -w | grep " f"| wc -l)
+floats=$(bspc query -T -d | grep -o '"state": "floating"' | wc -l)
 if [ -n "$fwid" ] ; then
 	wattr wh $fwid | {
 		read width height
