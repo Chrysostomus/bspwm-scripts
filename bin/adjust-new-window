@@ -7,12 +7,12 @@ wid=$1
 class=$2
 instance=$3
 title=$(xtitle "$wid")
-floats=$(bspc query -T -w | grep " f"| wc -l)
+floats=$(bspc query -T -d | grep -o '"state": "floating"' | wc -l)
 # only do something if there's already a tiled window on this desktop
 if [ -n "$(bspc query -W -w biggest.tiled)" ]; then
-    if [ -n "$(bspc query -W -w biggest.tiled.manual)" ]; then
+    if [ -n "$(bspc query -W -w biggest.tiled.!automatic)" ]; then
         # we have a presel: use it by choosing the 'target' window
-        echo window=biggest.tiled.manual
+        echo window=biggest.tiled.!automatic
     else
         # no presel exists: transplant into the biggest window
         wattr wh $bwid | {
