@@ -15,10 +15,9 @@ bspc config -m $(bspc query -M | awk NR==1) top_padding $PANEL_HEIGHT
 bspc config gapless_monocle     true
 
 bspc control --subscribe | while read line; do
-  W=$(bspc query -T -w | grep " --"| wc -l)
+  W=$(bspc query -T -d | grep -o '"state": "tiled"' | wc -l)
   G=$(echo "51 - ($W - 1) * 10" | bc)
   [[ $G -lt 1 ]] && G=1
     bspc config --desktop focused window_gap $G
 done
-
 
