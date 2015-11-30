@@ -1,46 +1,21 @@
 #!/bin/bash
+all_monitors=$(xrandr -q | awk '/connected/ {print $1}')
+default_screen=$(xrandr | awk '/ connected/ {print $1;exit;}')
+extra_monitors=$(xrandr -q | awk '/connected/ {print $1}' | grep -v $default_screen)
 
 #First, configure stuff with xrandr
-USER=$(who | grep :0\) | cut -f 1 -d ' ')
+[[ $(who) != "" ]] && USER=$(who | grep :0\) | cut -f 1 -d ' ') || \
+USER=$(echo /home/* | cut -f 3 -d '/')
+
 export DISPLAY=:0.0
 export XAUTHORITY=/home/$USER/.Xauthority
 
-default_screen=$(bspc query -M | awk NR==1)
-function connect_VGA(){
-xrandr --output VGA1 --auto --left-of $default_screen
-}
-
-function disconnect_VGA(){
-xrandr --output VGA1 --off
-}
-
-function connect_DP(){
-xrandr --output DP1 --auto --left-of $default_screen
-}
-
-function disconnect_DP(){
-xrandr --output DP1 --off
-}
-
-function connect_LVDS(){
-xrandr --output LVDS1 --auto --left-of $default_screen
-}
-
-function disconnect_LVDS(){
-xrandr --output LVDS1 --off
-}
-
-function connect_HDMI(){
-xrandr --output HDMI1 --auto --left-of $default_screen
-}
-
-function disconnect_HDMI(){
-xrandr --output HDMI1 --off
-}
-xrandr | grep "VGA1 connected" &> /dev/null && connect_VGA || disconnect_VGA
-xrandr | grep "HDMI1 connected" &> /dev/null && connect_HDMI || disconnect_HDMI
-xrandr | grep "DP1 connected" &> /dev/null && connect_DP || disconnect_DP
-xrandr | grep "LVDS1 connected" &> /dev/null && connect_LVDS || disconnect_LVDS
+for monitor in $extra_monitors; do
+	prev_mon=$(xrandr | awk '/connected/ {print $1}' | grep -B1 "^$monitor" | grep -vE "^$monitor|^--$")
+	xrandr --output $monitor \
+		--auto \
+		--right-of $prev_mon
+done
 
 #Then, create workspaces on all monitors
   I=1
@@ -73,5 +48,4 @@ xrandr | grep "LVDS1 connected" &> /dev/null && connect_LVDS || disconnect_LVDS
      let I++
      done
   fi
-
 
