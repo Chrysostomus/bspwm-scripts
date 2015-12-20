@@ -1,2 +1,5 @@
 #!/bin/sh
+if ! [ -f "$HOME/.config/bspwm/lockscreen.png" ]; then
+	cp /usr/share/backgrounds/lockscreen.png $HOME/.config/bspwm/lockscreen.png
+fi
 i3lock -i $HOME/.config/bspwm/lockscreen.png
