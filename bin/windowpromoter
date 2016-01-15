@@ -1,0 +1,6 @@
+#!/usr/bin/sh
+    if [ -z "$(bspc query -W -w last.!automatic.local)" ]; then \
+        bspc window -s biggest.!focused; \
+    else \
+        bspc window -w last.!automatic.local; \
+    fi 
