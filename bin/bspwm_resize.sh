@@ -64,10 +64,10 @@ for i in "$@"; do
 done
 
 # Find current window mode
-TILED="$(bspc query -T -w | grep -q '"state":"tiled"')"
+TWINDOW_STATE="$(bspc query -T -w | grep -o '"state":"tiled"')"
 
 # If the window is tiled, change split ration
-if $TILED ; then
+if [[ $WINDOW_STATE == '"state":"tiled"' ]] ; then
         $HORIZONTAL && switch=('west' 'east') || switch=('south' 'north')
         $POSITIVE && sign="+" || sign="-"
         bspc node -e ${switch[0]} ${sign}${SIZE} ||  bspc node -e ${switch[1]} ${sign}${SIZE}s
