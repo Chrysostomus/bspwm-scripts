@@ -4,28 +4,28 @@
 # Get the necessary info
 
 eval $(xdotool getmouselocation --shell)
-IFS=" " read -a window <<< $(wattr whxy $(bspc query -W -w focused))
+IFS=" " read -a window <<< $(wattr whxy $(bspc query -N -n focused))
 
 # Distance to each side
-up=$(( $Y - ${window[3]}))
-down=$(( ${window[3]} + ${window[1]} - $Y ))
-left=$(( $X - ${window[2]}))
-right=$(( ${window[2]} + ${window[0]} - $X ))
+north=$(( $Y - ${window[3]}))
+south=$(( ${window[3]} + ${window[1]} - $Y ))
+west=$(( $X - ${window[2]}))
+east=$(( ${window[2]} + ${window[0]} - $X ))
 # Dimensions of window
 widht=${window[0]}
 height=${window[1]}
 
 # Determine which window edge in biggest dimension is closer
   if [[ "$widht" -lt "$height" ]] && [[ "$up" -lt "$down" ]]; then
-    dir_final=up
+    dir_final=north
   elif [[ "$widht" -lt "$height" ]] && [[ "$up" -ge "$down" ]]; then
-    dir_final=down
+    dir_final=south
   elif [[ "$widht" -ge "$height" ]] && [[ "$left" -lt "$right" ]]; then
-    dir_final=left  
+    dir_final=west  
   else
-    dir_final=right
+    dir_final=east
   fi
   
 # Split the window accordingly
-bspc window -p cancel # Necessary if you have set auto_cancel to true
-bspc window -p $dir_final
+bspc node -p cancel # Necessary if you have set auto_cancel to true
+bspc node -p $dir_final
