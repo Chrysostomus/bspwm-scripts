@@ -9,7 +9,7 @@
 #    	num     any real number 1 -> biggest window 2 -> second biggest ...
 #    	nothing print all windwos on desktop sorted by size biggest first\
 #    		"
-    tree=$(bspc wm -d -d| jshon -e root -j)
+    tree=$(bspc wm -d| jshon -e root -j)
     
     function print_childs {
     	tree=$1
