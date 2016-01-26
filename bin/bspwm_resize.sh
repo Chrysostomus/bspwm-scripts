@@ -64,7 +64,7 @@ for i in "$@"; do
 done
 
 # Find current window mode
-TWINDOW_STATE="$(bspc query -T -w | grep -o '"state":"tiled"')"
+TWINDOW_STATE="$(bspc wm -d -w | grep -o '"state":"tiled"')"
 
 # If the window is tiled, change split ration
 if [[ $WINDOW_STATE == '"state":"tiled"' ]] ; then
