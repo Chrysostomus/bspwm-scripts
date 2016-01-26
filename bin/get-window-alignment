@@ -1,6 +1,6 @@
 #! /bin/sh
 # By https://github.com/tatou-tatou
-id="$(bspc query -W -w "${1:-focused}" | head -n1)"
+id="$(bspc query -N -n "${1:-focused}" | head -n1)"
 [ -z "$id" ] && exit 1
 
 w=$(wattr w "$id")

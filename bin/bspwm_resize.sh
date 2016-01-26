@@ -64,22 +64,16 @@ for i in "$@"; do
 done
 
 # Find current window mode
-WINDOW_STATUS="$(bspc query -T -w | awk '/^.* [a-zA-Z\-]{8} \*$/{print $8}')"
-FLAGS="$(echo $WINDOW_STATUS | sed 's/-//g')";
+TWINDOW_STATE="$(bspc query -T -w | grep -o '"state":"tiled"')"
 
-# If the window is floating, move it
-if [[ "$FLAGS" =~ ^.*f.*$ ]]; then
-        $HORIZONTAL && switch="-w" || switch="-h"
+# If the window is tiled, change split ration
+if [[ $WINDOW_STATE == '"state":"tiled"' ]] ; then
+        $HORIZONTAL && switch=('west' 'east') || switch=('south' 'north')
         $POSITIVE && sign="+" || sign="-"
-        xdo resize ${switch} ${sign}${SIZE}
-# If the window is pseudotiled, resize it
-elif [[ "$FLAGS" =~ ^.*d.*$ ]]; then
-        $HORIZONTAL && switch="-w" || switch="-h"
-        $POSITIVE && sign="+" || sign="-"
-        xdo resize ${switch} ${sign}${SIZE}
-# Otherwise, window is tiled change split ratio
+        bspc node -e ${switch[0]} ${sign}${SIZE} ||  bspc node -e ${switch[1]} ${sign}${SIZE}s
+# Otherwise, window is floating or pseudotiled, resize it
 else
-        $HORIZONTAL && switch=('left' 'right') || switch=('down' 'up')
+        $HORIZONTAL && switch="-w" || switch="-h"
         $POSITIVE && sign="+" || sign="-"
-        bspc window -e ${switch[0]} ${sign}${SIZE} ||  bspc window -e ${switch[1]} ${sign}${SIZE}
+        xdo resize ${switch} ${sign}${SIZE}
 fi

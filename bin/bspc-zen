@@ -14,7 +14,7 @@ desktop-remove)
 move-to-desktop)
 	name="$(bspc query -D | zenity --list --column Workspaces --text="Move to workspace:" --hide-header)"
     [ -z "$name" ] && exit
-	bspc window -d "$name"
+	bspc node -d "$name"
 ;;
 desktop-rename)
 	name="$(zenity --entry --text='Rename the current workspace to:')"

@@ -1,6 +1,6 @@
 #!/usr/bin/sh
-    if [ -z "$(bspc query -W -w last.!automatic.local)" ]; then \
-        bspc window -s biggest.!focused; \
+    if [ -z "$(bspc query -N -n last.!automatic.local)" ]; then \
+        bspc node -s biggest.!focused; \
     else \
-        bspc window -w last.!automatic.local; \
+        bspc node -w last.!automatic.local; \
     fi 

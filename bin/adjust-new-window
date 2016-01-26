@@ -2,7 +2,7 @@
 #External rule that always splits the biggest window of the desktop
 #Originally copied from https://github.com/ikn/ and 
 #modified to use splitting method of https://github.com/baskerville/bspwm/tree/master/examples/external_rules/pseudo_automatic_mode
-bwid=$(bspc query -W -w $(~/.bin/list_windows_by_size.sh 2))
+bwid=$(bspc query -N -n $(~/.bin/list_windows_by_size.sh 2))
 wid=$1
 class=$2
 instance=$3
