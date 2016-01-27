@@ -1,4 +1,24 @@
 #!/bin/sh
 # A fuzzy file-finder and opener based on dmenu
-# Requires: dmenu, exo-open
-find ~/ | sed 's/ /\\ /g' | sort -f | dmenu -i -l 20 -sb '#99CC99' -nb '#000000' -sf '#000000' -nf '#99CC99' -w 600 -fn sans15 | xargs xdg-open
+# Requires: dmenu, xdg-utils
+if ! [ -f "$HOME/.dmenurc" ]; then
+	cp /usr/share/dmenu/dmenurc $HOME/.dmenurc
+fi
+. $HOME/.dmenurc
+
+eval $(xdotool getmouselocation --shell)
+menu_widht=600
+monitor_widht=$(wattr w $(lsw -r))
+monitor_height=$(wattr h $(lsw -r))
+lines=20
+menu_height=$(( $lines * 23 ))
+maxx=$(( $monitor_widht - $menu_widht ))
+miny=$PANEL_HEIGHT
+maxy=$(( $monitor_height - $menu_height ))
+XP=$X
+[[ $XP -gt $maxx ]] && XP=$maxx
+YP=$Y
+[[ $YP -lt $miny ]] && YP=$miny
+[[ $YP -gt $maxy ]] && YP=$maxy
+
+find ~/ | sed 's/ /\\ /g' | sort -f | dmenu -i -l $lines -y $YP -x $XP -w $menu_widht -fn $DMENU_FN -nb $DMENU_NB -nf $DMENU_NF -sf $DMENU_SF -sb $DMENU_SB | xargs xdg-open
