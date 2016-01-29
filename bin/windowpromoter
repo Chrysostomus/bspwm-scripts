@@ -2,5 +2,5 @@
     if [ -z "$(bspc query -N -n last.!automatic.local)" ]; then \
         bspc node -s biggest.!focused; \
     else \
-        bspc node -w last.!automatic.local; \
+        bspc node -n last.!automatic.local; \
     fi 
