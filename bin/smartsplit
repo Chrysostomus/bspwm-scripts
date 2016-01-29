@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Window splitting script for bspwm. Requires wmutils and xdotool. Splits window in its biggest dimension
 # in the direction that is closer to the cursor. Inspired by MouseLaunch and pseudo_automatic_rule.
 # Get the necessary info
@@ -16,16 +16,17 @@ widht=${window[0]}
 height=${window[1]}
 
 # Determine which window edge in biggest dimension is closer
-  if [[ "$widht" -lt "$height" ]] && [[ "$up" -lt "$down" ]]; then
+  if [[ "$widht" -lt "$height" ]] && [[ "$north" -lt "$south" ]]; then
     dir_final=north
-  elif [[ "$widht" -lt "$height" ]] && [[ "$up" -ge "$down" ]]; then
+  elif [[ "$widht" -lt "$height" ]] && [[ "$north" -ge "$south" ]]; then
     dir_final=south
-  elif [[ "$widht" -ge "$height" ]] && [[ "$left" -lt "$right" ]]; then
+  elif [[ "$widht" -ge "$height" ]] && [[ "$east" -ge "$west" ]]; then
     dir_final=west  
   else
     dir_final=east
   fi
   
 # Split the window accordingly
-bspc node -p cancel # Necessary if you have set auto_cancel to true
+#bspc node -p cancel # Necessary if you have set auto_cancel to true
 bspc node -p $dir_final
+#echo "north=$north east=$east south=$south west=$west widht=$widht Height=$height $dir_final"
