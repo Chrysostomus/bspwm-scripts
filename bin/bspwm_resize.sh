@@ -3,7 +3,6 @@
 size=${2:-'20'}
 dir=$1
 
-bspc config pointer_follows_focus true
 # Find current window mode
 is_tiled() {
 bspc query -T -n | grep -q '"state":"tiled"'
@@ -30,13 +29,13 @@ if ! is_tiled; then
 # Otherwise, window is tiled: switch with window in given direction
 else
      case "$dir" in
-  		west) bspc node @west -r -$size
+  		west) bspc node @west -r -$size || bspc node @east -r -20
         	;;
-  		east) bspc node @west -r +$size
+  		east) bspc node @west -r +$size || bspc node @east -r +20
        		;;
-  		north) bspc node @south -r +$size
+  		north) bspc node @south -r +$size || bspc node @south -r -20
         	;;
-  		*) bspc node @south -r +$size
+  		*) bspc node @south -r +$size || bspc node @south -r -20
      		;;
  		esac
 fi
