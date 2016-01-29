@@ -6,8 +6,8 @@ fwid=$(bspc query -N -n focused)
 wattr wh $fwid | {
 	read width height
 	if [ $width -gt $height ] ; then
-		bspc window -p east
+		bspc node -p east
 	else
-		bspc window -p south
+		bspc node -p south
 	fi
 }
