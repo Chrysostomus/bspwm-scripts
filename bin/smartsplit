@@ -27,6 +27,5 @@ height=${window[1]}
   fi
   
 # Split the window accordingly
-#bspc node -p cancel # Necessary if you have set auto_cancel to true
-bspc node -p $dir_final
+bspc node -p \~$dir_final
 #echo "north=$north east=$east south=$south west=$west widht=$widht Height=$height $dir_final"
