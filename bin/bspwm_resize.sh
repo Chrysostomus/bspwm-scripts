@@ -11,31 +11,31 @@ bspc query -T -n | grep -q '"state":"tiled"'
 if ! is_tiled; then
 #only parse input if window is floating,tiled windows accept input as is
         case "$dir" in
-  		west) switch="-w"
-  		sign="-"
-        	;;
-  		east) switch="-w"
-         	sign="+"
-       		;;
-  		north) switch="-h"
-         	sign="-"
-        	;;
-  		*) switch="-h"
-     		sign="+"
-     		;;
- 		esac
+                west) switch="-w"
+                sign="-"
+                ;;
+                east) switch="-w"
+                sign="+"
+                ;;
+                north) switch="-h"
+                sign="-"
+                ;;
+                south) switch="-h"
+                sign="+"
+                ;;
+                esac
  xdo resize ${switch} ${sign}${size}
 
 # Otherwise, window is tiled: switch with window in given direction
 else
      case "$dir" in
-  		west) bspc node @west -r -$size || bspc node @east -r -20
-        	;;
-  		east) bspc node @west -r +$size || bspc node @east -r +20
-       		;;
-  		north) bspc node @south -r +$size || bspc node @south -r -20
-        	;;
-  		*) bspc node @south -r +$size || bspc node @south -r -20
-     		;;
- 		esac
+                west) bspc node @west -r -$size || bspc node @east -r -20
+                ;;
+                east) bspc node @west -r +$size || bspc node @east -r +20
+                ;;
+                north) bspc node @south -r -$size || bspc node @north -r -20
+                ;;
+                south) bspc node @south -r +$size || bspc node @north -r +20
+                ;;
+                esac
 fi
