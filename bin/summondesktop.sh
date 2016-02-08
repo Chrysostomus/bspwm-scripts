@@ -2,7 +2,7 @@
 #in sxhkdrc call it with
 #alt + {1-9,0}
 #     summonworkspace.sh {1-9,0}
-  D=^{$@}; \
+  D=$(bspc query -D -m | sed -n "$@ p"); \
   M=$(bspc query --monitors --desktop $D); \
   if [ $(bspc query --desktops --monitor $M | wc -l) -gt 1 ]; then \
     if [ $(bspc query --desktops --desktop focused) != $D ]; then \
