@@ -1,6 +1,6 @@
 #!/bin/bash
 
-size=${2:-'20'}
+size=${2:-'10'}
 dir=$1
 
 # Find current window mode
@@ -29,13 +29,13 @@ if ! is_tiled; then
 # Otherwise, window is tiled: switch with window in given direction
 else
      case "$dir" in
-                west) bspc node @west -r -$size || bspc node @east -r -20
+                west) bspc node @west -r -$size || bspc node @east -r -${size}
                 ;;
-                east) bspc node @west -r +$size || bspc node @east -r +20
+                east) bspc node @west -r +$size || bspc node @east -r +${size}
                 ;;
-                north) bspc node @south -r -$size || bspc node @north -r -20
+                north) bspc node @south -r -$size || bspc node @north -r -${size}
                 ;;
-                south) bspc node @south -r +$size || bspc node @north -r +20
+                south) bspc node @south -r +$size || bspc node @north -r +${size}
                 ;;
                 esac
 fi
