@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ $(pgrep -cx $0) -gt 2 ] ; then 
+	killall $0 && exit 0
+else
+
+bspc subscribe node_manage node_stack desktop_layout node_geometry | while read line; do
+  bspc node @south -B; bspc node @north -B
+done
+
+fi
