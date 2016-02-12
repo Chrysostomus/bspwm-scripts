@@ -1,0 +1,13 @@
+#! /bin/sh
+
+fwid=$(bspc query -N -n focused.automatic)
+wid=$1
+class=$2
+instance=$3
+title=$(xtitle "$wid")
+floats=$(bspc query -T -d | grep -o '"state":"floating"' | wc -l)
+if [ -n "$fwid" ] ; then
+			echo "split_dir=south"
+fi
+window-placer $floats $wid
+#bspc node @/ -B
