@@ -12,7 +12,7 @@ floats=$(bspc query -T -d | grep -o '"state": "floating"' | wc -l)
 if [ -n "$(bspc query -N -n biggest.tiled)" ]; then
     if [ -n "$(bspc query -N -n biggest.tiled.!automatic)" ]; then
         # we have a presel: use it by choosing the 'target' window
-        echo window=biggest.tiled.!automatic
+        echo "node=biggest.tiled.\!automatic"
     else
         # no presel exists: transplant into the biggest window
         wattr wh $bwid | {
@@ -26,4 +26,4 @@ if [ -n "$(bspc query -N -n biggest.tiled)" ]; then
 		}	
     fi
 fi
-#window-placer $floats $wid
+window-placer $floats $wid
