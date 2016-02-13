@@ -1,6 +1,24 @@
 #!/usr/bin/sh
+no_root_presel()
+{
+	bspc query -T -n @/ | cut -d : -f 10 | grep -q null
+}
+
+window_promotion()
+{
     if [ -z "$(bspc query -N -n last.!automatic.local)" ]; then \
         bspc node -s biggest.!focused; \
     else \
         bspc node -n last.!automatic.local; \
     fi 
+}
+
+if ! no_root_presel ; then
+	bspc node -n @/ || window_promotion
+	else
+    if [ -z "$(bspc query -N -n last.!automatic.local)" ]; then \
+        bspc node -s biggest.!focused; \
+    else \
+        bspc node -n last.!automatic.local; \
+    fi 
+fi
