@@ -8,9 +8,8 @@ title=$(xtitle "$wid")
 floats=$(bspc query -T -d | grep -o '"state":"floating"' | wc -l)
 if bspc query -N -n "@/.!automatic" > /dev/null ; then
     echo "node=@/"
-else
+fi
 if [ -n "$fwid" ] ; then
 			echo "split_dir=south"
 fi
 window-placer $floats $wid
-#bspc node @/ -B
