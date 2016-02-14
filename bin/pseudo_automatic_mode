@@ -6,6 +6,9 @@ class=$2
 instance=$3
 title=$(xtitle "$wid")
 floats=$(bspc query -T -d | grep -o '"state":"floating"' | wc -l)
+if bspc query -N -n "@/.!automatic" > /dev/null ; then
+    echo "node=@/"
+fi
 if [ -n "$fwid" ] ; then
 	wattr wh $fwid | {
 		read width height
@@ -14,7 +17,7 @@ if [ -n "$fwid" ] ; then
 		else
 			echo "split_dir=south"
 		fi
-		echo "split_ratio=0.5"
+#		echo "split_ratio=0.5"
 	}
 fi
 window-placer $floats $wid
