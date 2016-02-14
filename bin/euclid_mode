@@ -6,6 +6,9 @@ class=$2
 instance=$3
 title=$(xtitle "$wid")
 floats=$(bspc query -T -d | grep -o '"state":"floating"' | wc -l)
+if bspc query -N -n "@/.!automatic" > /dev/null ; then
+    echo "node=@/"
+else
 if [ -n "$fwid" ] ; then
 			echo "split_dir=south"
 fi
