@@ -17,7 +17,8 @@ transplanter() {
 }
 
 rootplanter() {
-	bspc node @/ -p ${dir} && bspc node -n @/ || bspc node @/ -p cancel
+	bspc node @/ -p ${dir} && bspc node -n @/ || bspc node -s next && bspc node -n @/
+	bspc node @/ -p cancel
 }
 
 bspc config pointer_follows_focus true
