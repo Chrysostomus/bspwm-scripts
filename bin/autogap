@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $(pgrep -cx autogap) -gt 2 ] ; then 
+if [ $(pgrep -cx autogap) -gt 1 ] ; then 
 	killall autogap && exit 0
 else
 
