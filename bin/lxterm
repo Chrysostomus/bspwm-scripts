@@ -1,4 +1,4 @@
 #!/bin/sh
 
 arguments=${@:-"-l -e $SHELL"}
-lxterminal $arguments
+exec lxterminal $arguments
