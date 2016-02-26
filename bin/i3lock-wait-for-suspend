@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 set -x
 DBUS_NAME="org.freedesktop.login1"
 DBUS_PATH="/org/freedesktop/login1"
