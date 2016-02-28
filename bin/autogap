@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/dash
 
-if [ $(pgrep -cx autogap) -gt 1 ] ; then 
+if [ "$(pgrep -cx autogap)" -gt 1 ] ; then 
 	killall autogap && exit 0
 else
 
@@ -14,7 +14,7 @@ bspc config gapless_monocle     true
 bspc subscribe | while read line; do
   W=$(bspc query -N -n .local.\!floating | wc -l)
   G=$(echo "51 - ($W - 1) * 10" | bc)
-  [[ $G -lt 1 ]] && G=1
+  [ "$G" -lt 1 ] && G=1
     bspc config --desktop focused window_gap $G
 done
 
