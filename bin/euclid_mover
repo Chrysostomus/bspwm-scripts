@@ -16,8 +16,12 @@ transplanter() {
 	bspc node ${dir} -p south && bspc node -n ${dir}
 }
 
+northplanter() {
+	bspc node north -p north && bspc node -n north
+}
+
 rootplanter() {
-	bspc node @/ -p ${dir} && bspc node -n @/ || bspc node -s next && bspc node -n @/
+	bspc node @/ -p ${dir} && bspc node -n @/ || bspc node -s next.local && bspc node -n @/
 	bspc node @/ -p cancel
 }
 
@@ -47,10 +51,23 @@ if is_floating; then
 
 # Otherwise, window is tiled: switch with window in given direction
 else
+	 if [[ $(bspc query -N -n .local.\!floating | wc -l) != 2 ]]; then 
 	 case "$dir" in
-  		north) bspc node -s north || rootplanter
+  		north) northplanter || rootplanter
         	;;
   		*) transplanter || rootplanter
      		;;
- 		esac
+ 	 esac
+ 	 else
+ 	 case "$dir" in
+  		east) bspc node -s east || bspc query -N -n west.local || bspc node @/ -R 90
+        	;;
+        west) bspc node -s west || bspc query -N -n east.local || bspc node @/ -R 270
+        	;;
+        south) bspc node -s south || bspc query -N -n north.local || bspc node @/ -R 90
+        	;;
+  		*) bspc node -s north || bspc query -N -n south.local || bspc node @/ -R 90
+     		;;
+     esac
+     fi
 fi
