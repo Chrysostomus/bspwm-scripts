@@ -2,7 +2,7 @@
 # Originally by https://github.com/windelicato/
 
 follower() {
-while [[ $(pgrep -cx bspwm_window_move.sh) = 1 ]] ; do
+while [[ $(pgrep -cx euclid_mover) = 1 ]] ; do
 	bspc config pointer_follows_focus false
 done
 }
