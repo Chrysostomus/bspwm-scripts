@@ -52,13 +52,33 @@ else
  	 esac
  	 else
  	 case "$dir" in
-  		east) bspc node -s east || bspc query -N -n west.local || bspc node @/ -R 90
+  		east) bspc node -s east || bspc query -N -n west.local || \
+        if bspc query -N -n south.local ; then
+        	bspc node @/ -R 90
+        	else
+        	bspc node @/ -R 270
+        fi
         	;;
-        west) bspc node -s west || bspc query -N -n east.local || bspc node @/ -R 270
+        west) bspc node -s west || bspc query -N -n east.local || \
+        if bspc query -N -n north.local ; then
+        	bspc node @/ -R 90
+        	else
+        	bspc node @/ -R 270
+        fi
         	;;
-        south) bspc node -s south || bspc query -N -n north.local || bspc node @/ -R 90
+        south) bspc node -s south || bspc query -N -n north.local || \
+        if bspc query -N -n west.local ; then
+        	bspc node @/ -R 90
+        	else
+        	bspc node @/ -R 270
+        fi 
         	;;
-  		*) bspc node -s north || bspc query -N -n south.local || bspc node @/ -R 90
+  		*) bspc node -s north || bspc query -N -n south.local || \
+        if bspc query -N -n west.local ; then
+        	bspc node @/ -R 270
+        	else
+        	bspc node @/ -R 90
+        fi
      		;;
      esac
      fi
