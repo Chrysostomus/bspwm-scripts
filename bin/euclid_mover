@@ -1,14 +1,6 @@
 #!/bin/bash
 # Originally by https://github.com/windelicato/
 
-follower() {
-while [[ $(pgrep -cx euclid_mover) = 1 ]] ; do
-	bspc config pointer_follows_focus false
-done
-}
-
-trap 'follower' INT TERM QUIT EXIT
-
 size=${2:-'20'}
 dir=$1
 
