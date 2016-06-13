@@ -12,7 +12,7 @@ window_promotion()
 	if [ -n "$receptacle" ] > /dev/null ; then
     bspc node -n "$receptacle" 
     elif [ -z "$(bspc query -N -n last.!automatic.local)" ]; then \
-        bspc node -s biggest.!focused; \
+        bspc node -s biggest.!focused.local; \
     else \
         bspc node -n last.!automatic.local; \
     fi 
@@ -24,7 +24,7 @@ if bspc query -N -n "@/.!automatic" > /dev/null ; then
     	if [ -n "$receptacle" ] > /dev/null ; then
     			bspc node -n "$receptacle" 
     		elif [ -z "$(bspc query -N -n last.!automatic.local)" ]; then \
-       			 bspc node -s biggest.!focused; \
+       			 bspc node -s biggest.!focused.local; \
     		else \
        			 bspc node -n last.!automatic.local; \
     	fi 
