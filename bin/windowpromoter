@@ -1,11 +1,6 @@
 #!/usr/bin/sh
 
-receptacle=$(bspc query -N -n ".leaf.!window.local")
-
-no_root_presel()
-{
-	bspc query -T -n @/ | cut -d : -f 10 | grep -q null
-}
+receptacle=$(bspc query -N -n ".leaf.!window.local" | awk NR==1)
 
 window_promotion()
 {
