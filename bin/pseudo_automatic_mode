@@ -5,11 +5,16 @@ wid=$1
 class=$2
 instance=$3
 title=$(xtitle "$wid")
+receptacle=$(bspc query -N -n ".leaf.!window.local"  | awk NR==1)
 #floats=$(bspc query -N -n .local.floating | wc -l)
+
 if bspc query -N -n "@/.!automatic" > /dev/null ; then
     echo "node=@/"
 fi
-if [ -n "$fwid" ] ; then
+
+if [ -n "$receptacle" ] > /dev/null ; then
+    echo "node=$receptacle"
+elif [ -n "$fwid" ] ; then
 	wattr wh $fwid | {
 		read width height
 		if [ $width -gt $height ] ; then
