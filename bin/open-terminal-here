@@ -1,0 +1,47 @@
+#!/bin/dash
+# i3 thread: https://faq.i3wm.org/question/150/how-to-launch-a-terminal-from-here/?answer=152#post-id-152
+
+# Set command to be run
+CMD=default-terminal
+# clear the Current Working Directory variable
+CWD=''
+
+# Check if the focused window is spacefm or gedit, because they have
+# internal functions to accomplish this better
+if (xprop WM_CLASS -id "$(pfw)" | grep -e spacefm -e gedit -e pcmanfm -e dolphin -e thunar -q) ; then
+	# release all modifier keys so that they don't interfere with the key sent
+	grep '^#define' /usr/include/X11/keysymdef.h | sed -r 's/^#define XK_(\S*?).*$/\1/;' | grep -E '_(L|R|Level.*)$' | xargs xdotool keyup
+	# send hotkey to open terminal in working directory
+	xdotool key F4
+else
+
+# Get PID of process whose window this is
+WPID=$(xdotool getactivewindow getwindowpid)
+# Get last child process (shell, vim, etc)
+if [ -n "$WPID" ]; then
+	PROCESS=$(pgrep -lP $WPID | tail -n 1)
+	PID=$(pgrep -P $WPID | tail -n 1)
+	# If we're in a tmux session then we need to do some gymnastics to get the
+	# cwd since the tmux session is not a direct child of the terminal
+	if (echo "$PROCESS" | grep -q tmux) ;
+	then
+		# To get the pid of the actual process we:
+		# - find the pts of the tmux process found above
+		PTS=$(ps -ef | grep "$PID" | grep -v grep | awk '{print $6}');
+		# - find the tmux session that's attached to the pts
+		TMUX_SESSION=$(tmux lsc -t /dev/"${PTS}" -F "#{client_session}")
+		# - find the pane_pid of the session
+		PID=$(tmux list-panes -st "$TMUX_SESSION"	-F '#{pane_pid}')
+	fi
+	# If we find the working directory, run the command in that directory
+	if [ -e "/proc/$PID/cwd" ]; then
+		CWD=$(readlink /proc/"$PID"/cwd)
+	fi
+fi
+
+if [ -n "$CWD" ]; then
+  cd "$CWD" && exec "$CMD"
+else
+  exec "$CMD"
+fi
+fi
