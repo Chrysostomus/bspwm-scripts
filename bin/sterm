@@ -1,0 +1,3 @@
+#!/bin/dash
+export SHELL=/usr/bin/tmux
+exec st -f "xos4 Terminus:size=14" $@
