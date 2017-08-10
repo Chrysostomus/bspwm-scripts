@@ -41,15 +41,15 @@ empty)
     esac
 ;;
 tile) # Force every existing window to tile (the opposite is dumb IMHO)
-    for window in $(bspc query -W -d focused)
+    for window in $(bspc query -N -d focused)
     do
-        bspc window $window -t floating=off
+        bspc node $window -t tiled
     done
 ;;
 float) # Force every existing window to float and place the windows
-    for window in $(bspc query -W -d focused)
+    for window in $(bspc query -N -d focused)
     do
-        bspc window $window -t floating=on && window-placer $i $window
+        bspc node $window -t floating && window-placer $i $window
         let i++
     done
 ;;
