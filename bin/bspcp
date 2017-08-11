@@ -49,7 +49,7 @@ tile) # Force every existing window to tile (the opposite is dumb IMHO)
 float) # Force every existing window to float and place the windows
     for window in $(bspc query -N -d focused)
     do
-        bspc node $window -t floating && window-placer $i $window
+        bspc node $window -t floating
         let i++
     done
 ;;
