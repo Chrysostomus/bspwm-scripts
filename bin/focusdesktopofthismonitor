@@ -1,0 +1,7 @@
+#!/bin/sh
+#Focus nth desktop of focused monitor for i3 style keybinds
+#
+#super + {1-9}
+#  focusdesktopofthismonitor ^{1-9}
+    D=$@; \
+    bspc desktop -f "$(bspc query -D -m | sed -n "$D p")"

@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/dash
 #
 # bspwm-session
 # From https://github.com/baskerville/bspwm/blob/master/contrib/freedesktop/bspwm-session , 
