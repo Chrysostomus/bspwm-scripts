@@ -1,29 +1,30 @@
-#!/bin/sh
+#!/bin/bash
 # Original script by https://github.com/tatou-tatou. Modified to match new bspwm syntax
 case $1 in
 desktop-add)
-	name="$(zenity --entry --text='Type the name of the new workspace:')"
-    [ -z "$name" ] && exit
-	bspc monitor -a "$name"
+	eval "`spacefm -g --label 'Type the name of the new workspace:' --input "" --button cancel --button ok`" 
+    [ -z "$dialog_input1" ] && exit
+	bspc monitor -a "$dialog_input1"
+	bspc desktop "$dialog_input1" -f
 ;;
 desktop-remove)
-	name="$(bspc query -D | zenity --list --column Workspaces --text="Select the workspace you want to remove" --hide-header)"
-    [ -z "$name" ] && exit
-	bspc monitor -r "$name"
+	eval "`spacefm -g --label 'Select the workspace you want to remove' --vsep --list $(bspc query -D --names) --hsep --button cancel --button ok --window-size 300x300`"
+	[ -z "$dialog_list1" ] && exit
+	bspc desktop "$dialog_list1" -r
 ;;
 move-to-desktop)
-	name="$(bspc query -D | zenity --list --column Workspaces --text="Move to workspace:" --hide-header)"
-    [ -z "$name" ] && exit
-	bspc node -d "$name"
+	eval "`spacefm -g --label 'Move to workspace:' --vsep --list $(bspc query -D --names) --hsep --button cancel --button ok --window-size 300x300`"
+	[ -z "$dialog_list1" ] && exit
+	bspc node -d "$dialog_list1"
 ;;
 desktop-rename)
-	name="$(zenity --entry --text='Rename the current workspace to:')"
-    [ -z "$name" ] && exit
-	bspc desktop -n "$name"
+	eval "`spacefm -g --label 'Rename the current workspace to:' --input "" --button cancel --button ok`"
+    [ -z "$dialog_input1" ] && exit
+	bspc desktop -n "$dialog_input1"
 ;;
 desktop-swap)
-	name="$(bspc query -D | zenity --list --column Workspaces --text="Swap with:" --hide-header)"
-    [ -z "$name" ] && exit
-	bspc desktop -s "$name"
+	eval "`spacefm -g --label 'Swap with:' --vsep --list $(bspc query -D --names) --hsep --button cancel --button ok --window-size 300x300`"
+	[ -z "$dialog_list1" ] && exit
+	bspc desktop -s "$dialog_list1"
 ;;
 esac
