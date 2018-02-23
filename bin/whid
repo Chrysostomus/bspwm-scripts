@@ -19,7 +19,7 @@ hide)
         focusedID=$(xdo id)
         focusedName=$(xdotool getwindowname $focusedID)
 
-        echo "$focusedID $focusedDesktop $focusedName" >> $file && xdo hide $focusedID && updatePanel $(($lines + 1)) && notify-send "A window has been hidden (${lines})." "$focusedName" -i warning
+        echo "$focusedID $focusedDesktop $focusedName" >> $file && xdo hide $focusedID && notify-send "A window has been hidden (${lines})." "$focusedName" -i warning
     fi
     ;;
 dmenu)
@@ -57,11 +57,11 @@ dmenu)
     selectedID=$(sed -n "$lineNumber p" $file | cut -d ' ' -f 1)
     selectedDesktop=$(sed -n "$lineNumber p" $file | cut -d ' ' -f 2)
     xdotool set_desktop $selectedDesktop
-    xdo show $selectedID && sed -i "${lineNumber}d" $file && updatePanel $(($lines - 1))
+    xdo show $selectedID && sed -i "${lineNumber}d" $file
     ;;
 last)
     lines=$(wc -l < $file)
     selectedID=$(tail -n 1 $file | cut -d ' ' -f 1)
-    xdo show $selectedID && sed -i "${lineNumber}d" $file && updatePanel $(($lines - 1))
+    xdo show $selectedID && sed -i "${lines}d" $file
     ;;
 esac
