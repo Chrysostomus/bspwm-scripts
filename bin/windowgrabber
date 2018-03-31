@@ -3,9 +3,9 @@
 # edited beyound recognition
 
 follower() {
-while [ "$(pgrep -cx windowgrabber)" = 1 ] ; do
+if [ "$(pgrep -cx windowgrabber)" = 1 ] ; then
 	bspc config pointer_follows_focus false
-done
+fi
 }
 
 trap 'follower' INT TERM QUIT EXIT
