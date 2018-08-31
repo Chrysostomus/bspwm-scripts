@@ -81,9 +81,3 @@ case "$dir" in
 esac
  
 cancel_presels
-
-
-
-
-
- This topic will close 3 months after the last reply.
