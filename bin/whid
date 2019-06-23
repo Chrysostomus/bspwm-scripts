@@ -15,11 +15,13 @@ hide)
     if [[ $lines -ge 10 ]]; then ## Fight against bad practices
         notify-send "Ten windows are already hidden" "You should consider closing some before hiding even more." -i warning
     else
-        focusedDesktop=$(xdotool get_desktop)
         focusedID=$(xdo id)
-        focusedName=$(xdotool getwindowname $focusedID)
+        if [[ "$focusedID" ]]; then
+            focusedName=$(xdotool getwindowname $focusedID)
+            focusedDesktop=$(xdotool get_desktop)
 
-        echo "$focusedID $focusedDesktop $focusedName" >> $file && xdo hide $focusedID && notify-send "A window has been hidden (${lines})." "$focusedName" -i warning
+            echo "$focusedID $focusedDesktop $focusedName" >> $file && xdo hide $focusedID && notify-send "A window has been hidden (${lines})." "$focusedName" -i warning
+        fi
     fi
     ;;
 dmenu)
