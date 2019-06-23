@@ -39,14 +39,14 @@
 		Super + f                     |- Toggle monocle
 		Super + o                     |- Make window private 
                               |  (Avoids splitting it automatically)
-		Super + Shift + q             |- Cleanly quit bspwm
-		Super + shift +r              |- Reload bspwms configuration file
+		Super + shift + q             |- Cleanly quit bspwm
+		Super + shift + r             |- Reload bspwms configuration file
 	### Mousecommands ######################################################################
 		
 		Leftclick menus	              |- Close menu 
 		Super + scroll                |- Adjust window gap
 		Super + drag                  |- Moves window
-		Super + rightclick drap       |- Resizes window
+		Super + rightclick drag       |- Resizes window
 		Alt + leftclick               |- Spawn window manipulation menu on cursor
 		Alt_gr + leftclick            |- Split window depending on mouselocation
                               |  and spawn application menu
